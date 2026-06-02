@@ -56,8 +56,6 @@ backend/
 ├── scripts/                    # Utility scripts
 │   └── init_db.py             # Initialize default categories
 ├── requirements.txt            # Python dependencies
-├── Dockerfile                  # Docker configuration
-├── docker-compose.yml          # Docker Compose setup
 ├── .env.example                # Environment variables template
 └── README.md                   # This file
 ```
@@ -117,31 +115,16 @@ The API will be available at:
 
 ## Docker Setup
 
-### Using Docker Compose
+Docker is configured at the repository root: `docker-compose.yml` orchestrates services; the backend image is built from `backend/Dockerfile`. See the main `README.md` for full-stack setup.
 
-1. **Copy environment file**
-   ```bash
-   cp .env.example .env
-   ```
+From the repo root, run migrations and init against the `backend` service:
 
-2. **Start services**
-   ```bash
-   docker-compose up -d
-   ```
+```bash
+docker compose exec backend alembic upgrade head
+docker compose exec backend python scripts/init_db.py
+```
 
-3. **Run migrations**
-   ```bash
-   docker-compose exec backend alembic upgrade head
-   ```
-
-4. **Initialize default categories**
-   ```bash
-   docker-compose exec backend python scripts/init_db.py
-   ```
-
-The services will be available at:
-- Backend API: http://localhost:8000
-- PostgreSQL: localhost:5432
+For API and database only (no frontend): `docker compose up -d db backend`.
 
 ## Database Migrations
 
