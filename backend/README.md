@@ -189,7 +189,7 @@ See `.env.example` for all available environment variables:
 - `DATABASE_URL` - PostgreSQL connection string
 - `SECRET_KEY` - Secret key for JWT tokens (change in production!)
 - `ACCESS_TOKEN_EXPIRE_MINUTES` - JWT token expiration time
-- `CORS_ORIGINS` - Allowed CORS origins (comma-separated)
+- `CORS_ORIGINS` - Allowed CORS origins (JSON array)
 - `AZURE_STORAGE_*` - Azure Blob Storage configuration (optional)
 
 ## Development
@@ -207,11 +207,14 @@ isort app/
 
 ## Production Deployment
 
-1. Set `DEBUG=False` in environment variables
-2. Use a strong `SECRET_KEY` (generate with `openssl rand -hex 32`)
-3. Configure proper CORS origins
-4. Set up Azure PostgreSQL for production database
-5. Deploy to Azure App Service or your preferred platform
+Deployment target: **Supabase (managed Postgres) + Render (FastAPI hosting)**. See `render.yaml` at the repo root.
+
+1. Create a Supabase project and copy its connection-pooler URL (port 6543) — see `.env.example` for the format
+2. Set `DEBUG=False` in environment variables
+3. Use a strong `SECRET_KEY` (generate with `openssl rand -hex 32`)
+4. Configure `CORS_ORIGINS` to your deployed frontend URL
+5. Connect this repo to Render as a Blueprint (reads `render.yaml`); set `DATABASE_URL`, `SECRET_KEY`, `CORS_ORIGINS` as secrets in the Render dashboard
+6. Render runs `alembic upgrade head` as a pre-deploy step on every push to `main` — no manual migration step needed in production
 
 ## License
 

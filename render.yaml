@@ -1,0 +1,27 @@
+# Render Blueprint for the EJ Finance FastAPI backend.
+# Render reads this automatically when you connect the repo as a Blueprint
+# (Dashboard -> New -> Blueprint). No GitHub Actions file needed — Render
+# deploys on every push to the connected branch on its own.
+services:
+  - type: web
+    name: ejfinance-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: starter          # "free" works too, see cold-start note below
+    region: oregon         # pick what's closest to you / your Supabase project
+    healthCheckPath: /health
+    autoDeploy: true
+
+    # Runs after a successful build, before the new version takes traffic —
+    # same role as Fly's release_command. A failed migration blocks the
+    # deploy instead of taking down the running app.
+    preDeployCommand: alembic upgrade head
+
+    envVars:
+      - key: DATABASE_URL
+        sync: false        # set manually in the Render dashboard (secret)
+      - key: SECRET_KEY
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false

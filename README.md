@@ -38,13 +38,13 @@ EJ Finance is a full-stack financial tracking application that provides:
 
 ### Database
 - **PostgreSQL** - Relational database
-  - Azure Database for PostgreSQL (production)
+  - Supabase (managed Postgres, production)
   - Local PostgreSQL (development)
 
 ### Deployment
-- **Azure App Service** - FastAPI backend hosting
-- **Vercel or Azure Static Web Apps** - Next.js frontend hosting
-- **Azure PostgreSQL** - Production database
+- **Render** - FastAPI backend hosting (see `render.yaml`)
+- **Vercel** - Next.js frontend hosting
+- **Supabase** - Production database (managed Postgres)
 - **Azure Blob Storage** - Receipt file storage
 
 ## Project Structure
@@ -391,7 +391,7 @@ This Compose setup is for **local development** only:
 - Frontend: bind-mounted source, `npm run dev` with `--hostname 0.0.0.0`
 - Database: default credentials in compose `environment` for convenience
 
-For production, use separate deployment targets (e.g. Azure App Service, Vercel) with strong secrets, managed PostgreSQL, and production build commands — not this compose file as-is.
+For production, use separate deployment targets (Render for the backend, Vercel for the frontend — see `render.yaml`) with strong secrets, managed PostgreSQL (Supabase), and production build commands — not this compose file as-is.
 
 ### Local Development Setup (without Docker)
 
