@@ -2,6 +2,10 @@
 
 # dependencies
 /node_modules
+# docker-entrypoint.sh symlinks this at container start (Turbopack CSS
+# resolution workaround) — never commit it, `/node_modules` above doesn't
+# cover it since it's anchored to this directory, not recursive.
+/app/node_modules
 /.pnp
 .pnp.*
 .yarn/*
