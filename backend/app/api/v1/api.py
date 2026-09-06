@@ -2,7 +2,7 @@
 API v1 router - aggregates all v1 endpoints
 """
 from fastapi import APIRouter
-from app.api.v1.endpoints import auth, users, categories, transactions, accounts, budgets
+from app.api.v1.endpoints import auth, users, categories, transactions, accounts, budgets, recurring_transactions
 
 api_router = APIRouter()
 
@@ -13,4 +13,5 @@ api_router.include_router(categories.router, prefix="/categories", tags=["catego
 api_router.include_router(transactions.router, prefix="/transactions", tags=["transactions"])
 api_router.include_router(accounts.router, prefix="/accounts", tags=["accounts"])
 api_router.include_router(budgets.router, prefix="/budgets", tags=["budgets"])
+api_router.include_router(recurring_transactions.router, prefix="/recurring-transactions", tags=["recurring-transactions"])
 
